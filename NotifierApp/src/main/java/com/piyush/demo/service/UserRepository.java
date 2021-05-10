@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import com.piyush.demo.model.User;
 
 @Component
-public interface UserRepository extends JpaRepository<User, Integer>{
+public interface UserRepository extends JpaRepository<User, String>{
 
+	User findByEmail(String loginemail);
 }
