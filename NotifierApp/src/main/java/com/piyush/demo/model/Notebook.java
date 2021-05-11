@@ -10,13 +10,14 @@ public class Notebook {
 
 	@Id
 	@GeneratedValue
-	private String nbid;
+	private int nbid;
 	private String nbname;
 	private String useremail;
-	public String getNbid() {
+	
+	public int getNbid() {
 		return nbid;
 	}
-	public void setNbid(String nbid) {
+	public void setNbid(int nbid) {
 		this.nbid = nbid;
 	}
 	public String getNbname() {

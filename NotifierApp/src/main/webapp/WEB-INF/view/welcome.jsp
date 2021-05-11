@@ -8,7 +8,7 @@
 </head>
 <body>
 	${user.name} 
-<a href="showNotebook">Show Notebook</a>
+<a href="showNotebooks">Show Notebooks</a>
 <a href="newNotebook">New Notebook</a>
 <a href="editUser">Edit User Details</a>
 <a href="logout">Logout</a>

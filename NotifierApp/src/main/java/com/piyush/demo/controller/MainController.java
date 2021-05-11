@@ -5,13 +5,16 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.piyush.demo.model.Notebook;
 import com.piyush.demo.model.User;
+import com.piyush.demo.service.NotebookRepository;
 import com.piyush.demo.service.UserRepository;
 
 @Controller
@@ -20,6 +23,9 @@ public class MainController {
 	
 		@Autowired
 		UserRepository userrepo;
+		
+		@Autowired
+		NotebookRepository nbrepo;
 		
 
 		@PostMapping("login")
@@ -93,6 +99,35 @@ public class MainController {
 			ModelAndView mv=new ModelAndView("EditUser");
 			mv.addObject("user",session.getAttribute("user"));
 			mv.addObject("isLoggedIn",session.getAttribute("isLoggedIn"));
+			return mv;
+		}
+		
+		@PostMapping("createNotebook")
+		public ModelAndView createNotebook(@RequestParam("nbname") String nbname, HttpSession session){
+			Notebook nb=nbrepo.findByNbname(nbname);
+			ModelAndView mv=new ModelAndView();
+			User u=(User) session.getAttribute("user");
+			if(nb!=null && nb.getNbname().equals(nbname) && u.getEmail().equals(nb.getUseremail())) {
+				mv.addObject("message","Notebook exists");
+				mv.setViewName("NewNotebook");
+				System.out.println("Notebook exists");
+			}
+			else {
+				Notebook newnb=new Notebook();
+				newnb.setNbname(nbname);
+				newnb.setUseremail(u.getEmail());
+				nbrepo.save(newnb);
+				mv.addObject("message","Notebook added");
+				mv.setViewName("welcome");
+				System.out.println("Notebook added");
+				
+			}
+			return mv;
+		}
+		
+		@RequestMapping("newNotebook")
+		public ModelAndView newNotebook() {
+			ModelAndView mv=new ModelAndView("NewNotebook");
 			return mv;
 		}
 	}
