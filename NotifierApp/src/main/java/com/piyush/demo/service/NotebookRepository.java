@@ -1,5 +1,7 @@
 package com.piyush.demo.service;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
@@ -9,5 +11,7 @@ import com.piyush.demo.model.Notebook;
 public interface NotebookRepository extends JpaRepository<Notebook, Integer>{
 
 	Notebook findByNbname(String nbname);
+
+	List<Notebook> findByUseremail(String useremail);
 
 }

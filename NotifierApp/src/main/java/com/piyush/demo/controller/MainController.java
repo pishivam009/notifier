@@ -1,11 +1,15 @@
 package com.piyush.demo.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -129,5 +133,20 @@ public class MainController {
 		public ModelAndView newNotebook() {
 			ModelAndView mv=new ModelAndView("NewNotebook");
 			return mv;
+		}
+		@RequestMapping("showNotebooks")
+		public ModelAndView showNotebooks(HttpSession session){
+			String useremail= ((User)session.getAttribute("user")).getEmail();
+		List<Notebook> l = nbrepo.findByUseremail(useremail);
+		System.out.println(l);
+		ModelAndView mv=new ModelAndView("welcome");
+			mv.addObject("list",l);
+			return mv;
+		}
+		
+		@GetMapping("openNotebook/{nbid}")
+		public ModelAndView openNotebook(@PathVariable("nbid") int nbid){
+			System.out.println(nbid);
+			return null;
 		}
 	}
